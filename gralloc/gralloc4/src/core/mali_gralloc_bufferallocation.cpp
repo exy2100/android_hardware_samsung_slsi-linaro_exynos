@@ -508,20 +508,14 @@ static void update_yv12_stride(int8_t plane,
                                uint32_t stride_align,
                                uint32_t * byte_stride)
 {
-	if (plane == 0)
-	{
-		*byte_stride = GRALLOC_ALIGN(luma_stride, GRALLOC_ALIGN(stride_align, 32));
-	}
-	else
-	{
-		/*
-		 * Derive chroma stride from luma and verify it is:
-		 * 1. Aligned to "1/2*lcm(hw_align, cpu_align)"
-		 * 2. Multiple of 16px (16 bytes)
-		 */
-		*byte_stride = luma_stride / 2;
-		assert(*byte_stride == GRALLOC_ALIGN(*byte_stride, GRALLOC_ALIGN(stride_align / 2, 16)));
-		assert(*byte_stride & 15 == 0);
+	// https://developer.android.com/reference/android/graphics/ImageFormat#YV12
+	if (plane == 0) {
+		// stride_align has to be honored as GPU alignment still requires the format to be
+		// 64 bytes aligned. Though that does not break the contract as long as the
+		// horizontal stride for chroma is half the luma stride and aligned to 16.
+		*byte_stride = GRALLOC_ALIGN(luma_stride, GRALLOC_ALIGN(stride_align, 16));
+	} else {
+		*byte_stride = GRALLOC_ALIGN(luma_stride / 2, 16);
 	}
 }
 
