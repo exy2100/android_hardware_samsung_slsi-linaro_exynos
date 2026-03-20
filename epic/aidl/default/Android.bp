@@ -1,0 +1,35 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_library_shared {
+    name: "vendor.samsung_slsi.hardware.epic-impl",
+    proprietary: true,
+    srcs: [
+        "EpicRequest.cpp",
+        "EpicHandle.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "vendor.samsung_slsi.hardware.epic-V1-ndk",
+    ],
+}
+
+cc_binary {
+    name: "vendor.samsung_slsi.hardware.epic-service",
+    init_rc: ["vendor.samsung_slsi.hardware.epic-service.rc"],
+    vintf_fragments: ["epic-default.xml"],
+    relative_install_path: "hw",
+    proprietary: true,
+    srcs: ["service.cpp"],
+    shared_libs: [
+        "libbase",
+        "libbinder_ndk",
+        "libsync",
+        "vendor.samsung_slsi.hardware.epic-impl",
+        "vendor.samsung_slsi.hardware.epic-V1-ndk",
+    ],
+}

@@ -1,0 +1,29 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_library {
+    name: "libepicoperator",
+    proprietary: true,
+    srcs: [
+        "EpicConnector.cpp",
+        "EpicBaseOperator.cpp",
+        "EpicCommonOperator.cpp",
+        "EpicCommonMultiOperator.cpp",
+        "EpicVideoDecodingOperator.cpp",
+        "EpicVideoEncodingOperator.cpp",
+        "OperatorFactory.cpp",
+        "EpicExportAPI.cpp",
+    ],
+    shared_libs: [
+        "liblog",
+        "libbase",
+        "libbinder_ndk",
+        "libutils",
+        "libcutils",
+        "vendor.samsung_slsi.hardware.epic-V1-ndk",
+    ],
+    export_include_dirs: ["./"],
+}
