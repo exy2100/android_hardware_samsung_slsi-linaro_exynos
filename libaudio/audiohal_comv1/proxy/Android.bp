@@ -51,7 +51,6 @@ audioproxy {
         },
         sec_resampler_library: {
             cflags: ["-DSEC_AUDIO_RESAMPLER"],
-            shared_libs: ["%s"],
         },
         use_bta2dp_offload: {
             cflags: ["-DSUPPORT_BTA2DP_OFFLOAD"],
@@ -139,7 +138,11 @@ cc_library_shared {
         "libalsautilsv2",
         "libexpat",
         "libhardware",
-    ],
+    ] + select(soong_config_variable("exynos_audio", "sec_resampler_library_path"), {
+        any @ flag_val: [flag_val],
+        default: [],
+    }),
+
     cflags: [
         "-Wno-unused-parameter",
         "-Wno-unused-variable",
